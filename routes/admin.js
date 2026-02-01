@@ -22,16 +22,21 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-// Configure multer for image and video uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../public/img/produtos'));
-    },
-    filename: (req, file, cb) => {
-        const uniqueName = `${Date.now()}-${uuidv4()}${path.extname(file.originalname)}`;
-        cb(null, uniqueName);
-    }
-});
+// Check if running in Vercel (serverless)
+const isVercel = process.env.VERCEL === '1';
+
+// Configure multer - use memory storage for Vercel, disk storage for local
+const storage = isVercel
+    ? multer.memoryStorage()
+    : multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, path.join(__dirname, '../public/img/produtos'));
+        },
+        filename: (req, file, cb) => {
+            const uniqueName = `${Date.now()}-${uuidv4()}${path.extname(file.originalname)}`;
+            cb(null, uniqueName);
+        }
+    });
 
 // Helper function to check if file is video
 function isVideo(filename) {
@@ -182,17 +187,20 @@ router.post('/produtos/novo', isAuthenticated, upload.array('media', 10), async 
     try {
         const { name, category, price, description, fullDescription, sizes } = req.body;
 
-        // Separate images and videos
+        // Separate images and videos (only works in local environment, not Vercel)
         const images = [];
         const videos = [];
-        req.files.forEach(file => {
-            const filePath = `/img/produtos/${file.filename}`;
-            if (isVideo(file.filename)) {
-                videos.push(filePath);
-            } else {
-                images.push(filePath);
-            }
-        });
+
+        if (!isVercel && req.files && req.files.length > 0) {
+            req.files.forEach(file => {
+                const filePath = `/img/produtos/${file.filename}`;
+                if (isVideo(file.filename)) {
+                    videos.push(filePath);
+                } else {
+                    images.push(filePath);
+                }
+            });
+        }
 
         const productData = {
             name,
@@ -209,7 +217,11 @@ router.post('/produtos/novo', isAuthenticated, upload.array('media', 10), async 
         };
 
         await createProduct(productData);
-        res.redirect('/admin/produtos?success=Produto criado com sucesso!');
+
+        const successMsg = isVercel && req.files && req.files.length > 0
+            ? 'Produto criado! (Imagens não salvas - use hospedagem local para uploads)'
+            : 'Produto criado com sucesso!';
+        res.redirect('/admin/produtos?success=' + encodeURIComponent(successMsg));
     } catch (error) {
         console.error('Create product error:', error);
         const categories = await getCategories();
@@ -259,8 +271,8 @@ router.post('/produtos/editar/:id', isAuthenticated, upload.array('media', 10), 
         let images = existingProduct.images || [];
         let videos = existingProduct.videos || [];
 
-        // If new files uploaded, separate images and videos
-        if (req.files && req.files.length > 0) {
+        // If new files uploaded and NOT in Vercel, separate images and videos
+        if (!isVercel && req.files && req.files.length > 0) {
             const newImages = [];
             const newVideos = [];
             req.files.forEach(file => {
@@ -298,7 +310,11 @@ router.post('/produtos/editar/:id', isAuthenticated, upload.array('media', 10), 
         };
 
         await updateProduct(req.params.id, productData);
-        res.redirect('/admin/produtos?success=Produto atualizado com sucesso!');
+
+        const successMsg = isVercel && req.files && req.files.length > 0
+            ? 'Produto atualizado! (Novas imagens não salvas no Vercel)'
+            : 'Produto atualizado com sucesso!';
+        res.redirect('/admin/produtos?success=' + encodeURIComponent(successMsg));
     } catch (error) {
         console.error('Update product error:', error);
         res.redirect(`/admin/produtos/editar/${req.params.id}?error=Erro ao atualizar produto`);
