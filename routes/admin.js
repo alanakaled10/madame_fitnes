@@ -16,17 +16,18 @@ import {
     updateSettings
 } from '../controllers/productController.js';
 import { login, logout, changePassword } from '../controllers/authController.js';
+import { uploadToCloudinary } from '../config/cloudinary.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-// Check if running in Vercel (serverless)
-const isVercel = process.env.VERCEL === '1';
+// Check if Cloudinary is configured
+const useCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
 
-// Configure multer - use memory storage for Vercel, disk storage for local
-const storage = isVercel
+// Configure multer - use memory storage for Cloudinary, disk storage for local
+const storage = useCloudinary
     ? multer.memoryStorage()
     : multer.diskStorage({
         destination: (req, file, cb) => {
@@ -41,6 +42,11 @@ const storage = isVercel
 // Helper function to check if file is video
 function isVideo(filename) {
     return /\.(mp4|webm|mov)$/i.test(filename);
+}
+
+// Helper function to check mimetype for video
+function isVideoMimetype(mimetype) {
+    return mimetype && mimetype.startsWith('video/');
 }
 
 const upload = multer({
@@ -187,19 +193,31 @@ router.post('/produtos/novo', isAuthenticated, upload.array('media', 10), async 
     try {
         const { name, category, price, description, fullDescription, sizes } = req.body;
 
-        // Separate images and videos (only works in local environment, not Vercel)
         const images = [];
         const videos = [];
 
-        if (!isVercel && req.files && req.files.length > 0) {
-            req.files.forEach(file => {
-                const filePath = `/img/produtos/${file.filename}`;
-                if (isVideo(file.filename)) {
-                    videos.push(filePath);
+        if (req.files && req.files.length > 0) {
+            for (const file of req.files) {
+                if (useCloudinary) {
+                    // Upload to Cloudinary
+                    const result = await uploadToCloudinary(file.buffer, {
+                        resource_type: isVideoMimetype(file.mimetype) ? 'video' : 'image'
+                    });
+                    if (isVideoMimetype(file.mimetype)) {
+                        videos.push(result.secure_url);
+                    } else {
+                        images.push(result.secure_url);
+                    }
                 } else {
-                    images.push(filePath);
+                    // Local storage
+                    const filePath = `/img/produtos/${file.filename}`;
+                    if (isVideo(file.filename)) {
+                        videos.push(filePath);
+                    } else {
+                        images.push(filePath);
+                    }
                 }
-            });
+            }
         }
 
         const productData = {
@@ -217,11 +235,7 @@ router.post('/produtos/novo', isAuthenticated, upload.array('media', 10), async 
         };
 
         await createProduct(productData);
-
-        const successMsg = isVercel && req.files && req.files.length > 0
-            ? 'Produto criado! (Imagens não salvas - use hospedagem local para uploads)'
-            : 'Produto criado com sucesso!';
-        res.redirect('/admin/produtos?success=' + encodeURIComponent(successMsg));
+        res.redirect('/admin/produtos?success=' + encodeURIComponent('Produto criado com sucesso!'));
     } catch (error) {
         console.error('Create product error:', error);
         const categories = await getCategories();
@@ -271,18 +285,32 @@ router.post('/produtos/editar/:id', isAuthenticated, upload.array('media', 10), 
         let images = existingProduct.images || [];
         let videos = existingProduct.videos || [];
 
-        // If new files uploaded and NOT in Vercel, separate images and videos
-        if (!isVercel && req.files && req.files.length > 0) {
+        // If new files uploaded, process them
+        if (req.files && req.files.length > 0) {
             const newImages = [];
             const newVideos = [];
-            req.files.forEach(file => {
-                const filePath = `/img/produtos/${file.filename}`;
-                if (isVideo(file.filename)) {
-                    newVideos.push(filePath);
+
+            for (const file of req.files) {
+                if (useCloudinary) {
+                    // Upload to Cloudinary
+                    const result = await uploadToCloudinary(file.buffer, {
+                        resource_type: isVideoMimetype(file.mimetype) ? 'video' : 'image'
+                    });
+                    if (isVideoMimetype(file.mimetype)) {
+                        newVideos.push(result.secure_url);
+                    } else {
+                        newImages.push(result.secure_url);
+                    }
                 } else {
-                    newImages.push(filePath);
+                    // Local storage
+                    const filePath = `/img/produtos/${file.filename}`;
+                    if (isVideo(file.filename)) {
+                        newVideos.push(filePath);
+                    } else {
+                        newImages.push(filePath);
+                    }
                 }
-            });
+            }
 
             // Handle images
             if (newImages.length > 0) {
@@ -310,11 +338,7 @@ router.post('/produtos/editar/:id', isAuthenticated, upload.array('media', 10), 
         };
 
         await updateProduct(req.params.id, productData);
-
-        const successMsg = isVercel && req.files && req.files.length > 0
-            ? 'Produto atualizado! (Novas imagens não salvas no Vercel)'
-            : 'Produto atualizado com sucesso!';
-        res.redirect('/admin/produtos?success=' + encodeURIComponent(successMsg));
+        res.redirect('/admin/produtos?success=' + encodeURIComponent('Produto atualizado com sucesso!'));
     } catch (error) {
         console.error('Update product error:', error);
         res.redirect(`/admin/produtos/editar/${req.params.id}?error=Erro ao atualizar produto`);
