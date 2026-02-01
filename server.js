@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { connectDB } from './data/database.js';
 
 // Routes
 import indexRoutes from './routes/index.js';
@@ -14,6 +16,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Connect to MongoDB
+connectDB();
+
 // View Engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -25,11 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Session
 app.use(session({
-    secret: 'madame-modas-secret-key-2024',
+    secret: process.env.SESSION_SECRET || 'madame-modas-secret-key-2024',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));

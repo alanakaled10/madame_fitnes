@@ -1,39 +1,35 @@
-import db from '../data/database.js';
-import { v4 as uuidv4 } from 'uuid';
+import { Product, Settings } from '../data/database.js';
 
 // Get all products (with optional category filter)
 export async function getProducts(category = 'all') {
-    await db.read();
-
-    let products = db.data.products || [];
-
-    // Filter only active products for public view
-    products = products.filter(p => p.active !== false);
+    let query = { active: true };
 
     if (category !== 'all') {
-        products = products.filter(p => p.category === category);
+        query.category = category;
     }
 
-    return products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    return await Product.find(query).sort({ createdAt: -1 });
 }
 
 // Get all products including inactive (for admin)
 export async function getAllProducts(category = 'all') {
-    await db.read();
-
-    let products = db.data.products || [];
+    let query = {};
 
     if (category !== 'all') {
-        products = products.filter(p => p.category === category);
+        query.category = category;
     }
 
-    return products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    return await Product.find(query).sort({ createdAt: -1 });
 }
 
 // Get product by ID
 export async function getProductById(id) {
-    await db.read();
-    return db.data.products.find(p => p.id === id);
+    try {
+        return await Product.findById(id);
+    } catch (error) {
+        // If ID is not valid ObjectId, return null
+        return null;
+    }
 }
 
 // Get available categories
@@ -46,71 +42,58 @@ export async function getCategories() {
 
 // Create new product
 export async function createProduct(productData) {
-    await db.read();
-
-    const newProduct = {
-        id: `prod-${uuidv4()}`,
-        ...productData,
-        createdAt: new Date().toISOString()
-    };
-
-    db.data.products.push(newProduct);
-    await db.write();
-
-    return newProduct;
+    const product = new Product(productData);
+    await product.save();
+    return product;
 }
 
 // Update product
 export async function updateProduct(id, productData) {
-    await db.read();
+    const product = await Product.findByIdAndUpdate(
+        id,
+        { $set: productData },
+        { new: true, runValidators: true }
+    );
 
-    const index = db.data.products.findIndex(p => p.id === id);
-    if (index === -1) {
+    if (!product) {
         throw new Error('Produto não encontrado');
     }
 
-    db.data.products[index] = {
-        ...db.data.products[index],
-        ...productData,
-        updatedAt: new Date().toISOString()
-    };
-
-    await db.write();
-
-    return db.data.products[index];
+    return product;
 }
 
 // Delete product
 export async function deleteProduct(id) {
-    await db.read();
+    const product = await Product.findByIdAndDelete(id);
 
-    const index = db.data.products.findIndex(p => p.id === id);
-    if (index === -1) {
+    if (!product) {
         throw new Error('Produto não encontrado');
     }
-
-    db.data.products.splice(index, 1);
-    await db.write();
 
     return true;
 }
 
 // Get settings
 export async function getSettings() {
-    await db.read();
-    return db.data.settings || {};
+    let settings = await Settings.findOne();
+
+    if (!settings) {
+        settings = await Settings.create({});
+    }
+
+    return settings;
 }
 
 // Update settings
 export async function updateSettings(settingsData) {
-    await db.read();
+    let settings = await Settings.findOne();
 
-    db.data.settings = {
-        ...db.data.settings,
-        ...settingsData
-    };
+    if (!settings) {
+        settings = await Settings.create(settingsData);
+    } else {
+        Object.assign(settings, settingsData);
+        await settings.save();
+    }
 
-    await db.write();
-
-    return db.data.settings;
+    return settings;
 }

@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { isAuthenticated } from '../middleware/auth.js';
 import {
     getProducts,
+    getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
@@ -108,7 +109,7 @@ router.get('/logout', (req, res) => {
 // Dashboard
 router.get('/', isAuthenticated, async (req, res) => {
     try {
-        const products = await getProducts('all');
+        const products = await getAllProducts('all');
         const settings = await getSettings();
 
         const stats = {
@@ -136,7 +137,7 @@ router.get('/', isAuthenticated, async (req, res) => {
 router.get('/produtos', isAuthenticated, async (req, res) => {
     try {
         const category = req.query.category || 'all';
-        const products = await getProducts(category);
+        const products = await getAllProducts(category);
         const categories = await getCategories();
 
         res.render('admin/products', {

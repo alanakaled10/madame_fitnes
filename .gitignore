@@ -25,6 +25,9 @@ nul
 # Vercel
 .vercel
 
+# Local database
+data/db.json
+
 # Uploads (optional - remove if you want to track uploads)
 # public/uploads/*
 # !public/uploads/.gitkeep
