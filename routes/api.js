@@ -1,5 +1,6 @@
 import express from 'express';
 import { getProducts, getProductById, getSettings } from '../controllers/productController.js';
+import { User } from '../data/database.js';
 
 const router = express.Router();
 
@@ -37,6 +38,26 @@ router.get('/settings', async (req, res) => {
     } catch (error) {
         console.error('API Error:', error);
         res.status(500).json({ success: false, error: 'Erro ao buscar configurações' });
+    }
+});
+
+// Setup route - creates admin user if not exists
+router.get('/setup', async (req, res) => {
+    try {
+        const adminExists = await User.findOne({ username: 'admin' });
+        if (adminExists) {
+            return res.json({ success: true, message: 'Admin user already exists' });
+        }
+
+        await User.create({
+            username: 'admin',
+            password: 'admin123'
+        });
+
+        res.json({ success: true, message: 'Admin user created! Username: admin, Password: admin123' });
+    } catch (error) {
+        console.error('Setup Error:', error);
+        res.status(500).json({ success: false, error: error.message });
     }
 });
 
