@@ -20,7 +20,7 @@
                 <%= isEdit ? 'Editar Produto' : 'Novo Produto' %>
             </h1>
             <p class="text-dark-soft/60 text-sm sm:text-base">
-                <%= isEdit ? 'Atualize as informacoes do produto' : 'Preencha as informacoes do novo produto' %>
+                <%= isEdit ? 'Atualize as informações do produto' : 'Preencha as informações do novo produto' %>
             </p>
         </div>
 
@@ -63,7 +63,7 @@
 
                 <!-- Price -->
                 <div>
-                    <label for="price" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Preco (R$) *</label>
+                    <label for="price" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Preço (R$) *</label>
                     <input type="number" id="price" name="price" required step="0.01" min="0"
                            value="<%= product?.price || '' %>"
                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base"
@@ -72,20 +72,20 @@
 
                 <!-- Short Description -->
                 <div class="sm:col-span-2">
-                    <label for="description" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Descricao Curta *</label>
+                    <label for="description" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Descrição Curta *</label>
                     <input type="text" id="description" name="description" required maxlength="150"
                            value="<%= product?.description || '' %>"
                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base"
-                           placeholder="Descricao breve para o card do produto">
-                    <p class="text-dark-soft/60 text-xs sm:text-sm mt-1">Maximo 150 caracteres</p>
+                           placeholder="Descrição breve para o card do produto">
+                    <p class="text-dark-soft/60 text-xs sm:text-sm mt-1">Máximo 150 caracteres</p>
                 </div>
 
                 <!-- Full Description -->
                 <div class="sm:col-span-2">
-                    <label for="fullDescription" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Descricao Completa</label>
+                    <label for="fullDescription" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Descrição Completa</label>
                     <textarea id="fullDescription" name="fullDescription" rows="3"
                               class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base resize-none"
-                              placeholder="Descricao detalhada para a pagina do produto"><%= product?.fullDescription || '' %></textarea>
+                              placeholder="Descrição detalhada para a página do produto"><%= product?.fullDescription || '' %></textarea>
                 </div>
 
                 <!-- Sizes -->
@@ -95,12 +95,12 @@
                            value="<%= product?.sizes?.join(', ') || '' %>"
                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base"
                            placeholder="P, M, G, GG">
-                    <p class="text-dark-soft/60 text-xs sm:text-sm mt-1">Separe os tamanhos por virgula</p>
+                    <p class="text-dark-soft/60 text-xs sm:text-sm mt-1">Separe os tamanhos por vírgula</p>
                 </div>
 
                 <!-- Images and Videos -->
                 <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium text-dark mb-2 sm:mb-3">Imagens e Videos do Produto</label>
+                    <label class="block text-sm font-medium text-dark mb-2 sm:mb-3">Imagens e Vídeos do Produto</label>
 
                     <% if (isEdit && product?.images?.length > 0) { %>
                         <div class="mb-4">
@@ -123,7 +123,7 @@
 
                     <% if (isEdit && product?.videos?.length > 0) { %>
                         <div class="mb-4">
-                            <p class="text-dark-soft/60 text-xs sm:text-sm mb-2">Videos atuais:</p>
+                            <p class="text-dark-soft/60 text-xs sm:text-sm mb-2">Vídeos atuais:</p>
                             <div class="flex flex-wrap gap-2">
                                 <% product.videos.forEach(video => { %>
                                     <div class="relative w-24 h-16 sm:w-32 sm:h-20 rounded-lg border border-nude-dark overflow-hidden bg-dark/10">
@@ -140,7 +140,7 @@
                                 <label class="inline-flex items-center">
                                     <input type="checkbox" name="keepVideos" value="true" checked
                                            class="rounded border-nude-dark text-dark focus:ring-dark/20 w-4 h-4">
-                                    <span class="ml-2 text-xs sm:text-sm text-dark-soft/60">Manter videos atuais</span>
+                                    <span class="ml-2 text-xs sm:text-sm text-dark-soft/60">Manter vídeos atuais</span>
                                 </label>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                             <input type="checkbox" name="active" value="true"
                                    <%= product?.active !== false ? 'checked' : '' %>
                                    class="rounded border-nude-dark text-dark focus:ring-dark/20 w-5 h-5">
-                            <span class="ml-3 text-dark text-sm sm:text-base">Produto ativo (visivel no catalogo)</span>
+                            <span class="ml-3 text-dark text-sm sm:text-base">Produto ativo (visível no catálogo)</span>
                         </label>
                     </div>
                 <% } %>
@@ -181,7 +181,7 @@
                 </a>
                 <button type="submit"
                         class="bg-dark text-nude-light px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium hover:bg-dark-soft transition-colors text-sm sm:text-base order-1 sm:order-2">
-                    <%= isEdit ? 'Salvar Alteracoes' : 'Criar Produto' %>
+                    <%= isEdit ? 'Salvar Alterações' : 'Criar Produto' %>
                 </button>
             </div>
         </form>

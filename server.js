@@ -55,8 +55,8 @@ app.use(async (req, res, next) => {
     } catch (error) {
         console.error('Database connection error:', error.message);
         return res.status(500).render('error', {
-            title: 'Erro de Conexao',
-            message: 'Erro ao conectar ao banco de dados. Verifique as configuracoes.'
+            title: 'Erro de Conexão',
+            message: 'Erro ao conectar ao banco de dados. Verifique as configurações.'
         });
     }
 });
@@ -75,7 +75,7 @@ app.use('/api', apiRoutes);
 
 // 404 Handler
 app.use((req, res) => {
-    res.status(404).render('404', { title: 'Pagina nao encontrada' });
+    res.status(404).render('404', { title: 'Página não encontrada' });
 });
 
 // Error Handler
@@ -91,7 +91,7 @@ app.use((err, req, res, next) => {
 if (process.env.VERCEL !== '1') {
     app.listen(PORT, () => {
         console.log(`Servidor rodando em http://localhost:${PORT}`);
-        console.log(`Catalogo: http://localhost:${PORT}`);
+        console.log(`Catálogo: http://localhost:${PORT}`);
         console.log(`Admin: http://localhost:${PORT}/admin`);
     });
 }

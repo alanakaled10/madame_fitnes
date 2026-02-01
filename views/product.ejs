@@ -100,7 +100,7 @@
 
                 <!-- Description -->
                 <div class="space-y-4">
-                    <h2 class="font-medium text-dark text-lg">Descricao</h2>
+                    <h2 class="font-medium text-dark text-lg">Descrição</h2>
                     <p class="text-dark-soft/70 leading-relaxed">
                         <%= product.fullDescription || product.description %>
                     </p>
@@ -109,7 +109,7 @@
                 <!-- Sizes -->
                 <% if (product.sizes && product.sizes.length > 0) { %>
                     <div class="space-y-4">
-                        <h2 class="font-medium text-dark text-lg">Tamanhos Disponiveis</h2>
+                        <h2 class="font-medium text-dark text-lg">Tamanhos Disponíveis</h2>
                         <div class="flex flex-wrap gap-2">
                             <% product.sizes.forEach(size => { %>
                                 <span class="px-4 py-2 border border-dark/20 rounded-lg text-dark text-sm font-medium hover:bg-nude transition-colors cursor-pointer">
@@ -162,7 +162,7 @@
     const whatsappNumber = '<%= settings.whatsappNumber %>';
 
     function sendWhatsApp(productName, category) {
-        const message = encodeURIComponent(`Ola, tenho interesse no produto ${productName} da categoria ${category}.`);
+        const message = encodeURIComponent(`Olá, tenho interesse no produto ${productName} da categoria ${category}.`);
         window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     }
 

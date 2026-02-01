@@ -10,8 +10,8 @@ const defaultProducts = [
         category: 'fitness',
         categoryLabel: 'Roupas Fitness',
         price: 89.90,
-        description: 'Blusa confortavel para treinos intensos',
-        fullDescription: 'Blusa de alta qualidade, perfeita para seus treinos mais intensos. Tecido respiravel e confortavel.',
+        description: 'Blusa confortável para treinos intensos',
+        fullDescription: 'Blusa de alta qualidade, perfeita para seus treinos mais intensos. Tecido respirável e confortável.',
         image: '/img/produtos/blusa-gym-branca.jpeg',
         images: ['/img/produtos/blusa-gym-branca.jpeg'],
         sizes: ['P', 'M', 'G', 'GG'],
@@ -22,7 +22,7 @@ const defaultProducts = [
         category: 'fitness',
         categoryLabel: 'Roupas Fitness',
         price: 159.90,
-        description: 'Conjunto elegante e versatil',
+        description: 'Conjunto elegante e versátil',
         fullDescription: 'Conjunto perfeito para o dia a dia com estilo fitness.',
         image: '/img/produtos/conjunto-saia-e-blusa.jpeg',
         images: ['/img/produtos/conjunto-saia-e-blusa.jpeg'],
@@ -35,19 +35,19 @@ const defaultProducts = [
         categoryLabel: 'Roupas Fitness',
         price: 149.90,
         description: 'Conforto e estilo para seu treino',
-        fullDescription: 'Conjunto confortavel e estiloso para seus treinos.',
+        fullDescription: 'Conjunto confortável e estiloso para seus treinos.',
         image: '/img/produtos/conjunto-top-short-folgado-branco.jpeg',
         images: ['/img/produtos/conjunto-top-short-folgado-branco.jpeg'],
         sizes: ['P', 'M', 'G', 'GG'],
         active: true
     },
     {
-        name: 'Secaps Black Cha',
+        name: 'Secaps Black Chá',
         category: 'suplementos',
         categoryLabel: 'Suplementos',
         price: 89.90,
-        description: 'Termogenico com cha verde e cafeina',
-        fullDescription: 'Suplemento termogenico para auxiliar na queima de gordura.',
+        description: 'Termogênico com chá verde e cafeína',
+        fullDescription: 'Suplemento termogênico para auxiliar na queima de gordura.',
         image: '/img/produtos/secaps-black-cha.jpeg',
         images: ['/img/produtos/secaps-black-cha.jpeg'],
         sizes: [],
@@ -131,14 +131,14 @@ async function seedDatabase() {
                 username: 'admin',
                 password: 'admin123' // Will be hashed by the model
             });
-            console.log('Usuario admin criado! (usuario: admin, senha: admin123)');
+            console.log('Usuário admin criado! (usuário: admin, senha: admin123)');
         }
 
         // Check if settings exist
         const settingsExist = await Settings.findOne();
         if (!settingsExist) {
             await Settings.create({});
-            console.log('Configuracoes iniciais criadas!');
+            console.log('Configurações iniciais criadas!');
         }
     } catch (error) {
         console.error('Erro ao fazer seed do banco:', error.message);

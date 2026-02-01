@@ -76,8 +76,8 @@
     <div class="max-w-7xl mx-auto">
         <!-- Section Title -->
         <div class="text-center mb-12">
-            <h2 class="font-serif text-3xl sm:text-4xl font-light text-dark mb-4">Nossa Colecao</h2>
-            <p class="text-dark-soft/60 font-light tracking-wide">Pecas selecionadas para voce</p>
+            <h2 class="font-serif text-3xl sm:text-4xl font-light text-dark mb-4">Nossa Coleção</h2>
+            <p class="text-dark-soft/60 font-light tracking-wide">Peças selecionadas para você</p>
         </div>
 
         <% if (products.length === 0) { %>
@@ -184,7 +184,7 @@
     const whatsappNumber = '<%= settings.whatsappNumber %>';
 
     function sendWhatsApp(productName, category) {
-        const message = encodeURIComponent(`Ola, tenho interesse no produto ${productName} da categoria ${category}.`);
+        const message = encodeURIComponent(`Olá, tenho interesse no produto ${productName} da categoria ${category}.`);
         window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     }
 
