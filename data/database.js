@@ -10,8 +10,8 @@ const defaultProducts = [
         category: 'fitness',
         categoryLabel: 'Roupas Fitness',
         price: 89.90,
-        description: 'Blusa confortável para treinos intensos',
-        fullDescription: 'Blusa de alta qualidade, perfeita para seus treinos mais intensos. Tecido respirável e confortável.',
+        description: 'Blusa confortavel para treinos intensos',
+        fullDescription: 'Blusa de alta qualidade, perfeita para seus treinos mais intensos. Tecido respiravel e confortavel.',
         image: '/img/produtos/blusa-gym-branca.jpeg',
         images: ['/img/produtos/blusa-gym-branca.jpeg'],
         sizes: ['P', 'M', 'G', 'GG'],
@@ -22,7 +22,7 @@ const defaultProducts = [
         category: 'fitness',
         categoryLabel: 'Roupas Fitness',
         price: 159.90,
-        description: 'Conjunto elegante e versátil',
+        description: 'Conjunto elegante e versatil',
         fullDescription: 'Conjunto perfeito para o dia a dia com estilo fitness.',
         image: '/img/produtos/conjunto-saia-e-blusa.jpeg',
         images: ['/img/produtos/conjunto-saia-e-blusa.jpeg'],
@@ -35,19 +35,19 @@ const defaultProducts = [
         categoryLabel: 'Roupas Fitness',
         price: 149.90,
         description: 'Conforto e estilo para seu treino',
-        fullDescription: 'Conjunto confortável e estiloso para seus treinos.',
+        fullDescription: 'Conjunto confortavel e estiloso para seus treinos.',
         image: '/img/produtos/conjunto-top-short-folgado-branco.jpeg',
         images: ['/img/produtos/conjunto-top-short-folgado-branco.jpeg'],
         sizes: ['P', 'M', 'G', 'GG'],
         active: true
     },
     {
-        name: 'Secaps Black Chá',
+        name: 'Secaps Black Cha',
         category: 'suplementos',
         categoryLabel: 'Suplementos',
         price: 89.90,
-        description: 'Termogênico com chá verde e cafeína',
-        fullDescription: 'Suplemento termogênico para auxiliar na queima de gordura.',
+        description: 'Termogenico com cha verde e cafeina',
+        fullDescription: 'Suplemento termogenico para auxiliar na queima de gordura.',
         image: '/img/produtos/secaps-black-cha.jpeg',
         images: ['/img/produtos/secaps-black-cha.jpeg'],
         sizes: [],
@@ -67,26 +67,50 @@ const defaultProducts = [
     }
 ];
 
+// Cached connection for serverless
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+}
+
 // Connect to MongoDB
 export async function connectDB() {
+    // If already connected, return the connection
+    if (cached.conn) {
+        return cached.conn;
+    }
+
+    const mongoUri = process.env.MONGODB_URI;
+
+    if (!mongoUri) {
+        console.error('MONGODB_URI not found in environment variables');
+        throw new Error('MONGODB_URI not configured');
+    }
+
+    // If there's no promise, create one
+    if (!cached.promise) {
+        const opts = {
+            bufferCommands: false,
+        };
+
+        cached.promise = mongoose.connect(mongoUri, opts).then((mongoose) => {
+            console.log('MongoDB conectado com sucesso!');
+            return mongoose;
+        });
+    }
+
     try {
-        const mongoUri = process.env.MONGODB_URI;
-
-        if (!mongoUri) {
-            console.error('MONGODB_URI not found in environment variables');
-            return false;
-        }
-
-        await mongoose.connect(mongoUri);
-        console.log('MongoDB conectado com sucesso!');
+        cached.conn = await cached.promise;
 
         // Seed database if empty
         await seedDatabase();
 
-        return true;
+        return cached.conn;
     } catch (error) {
+        cached.promise = null;
         console.error('Erro ao conectar ao MongoDB:', error.message);
-        return false;
+        throw error;
     }
 }
 

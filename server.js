@@ -16,16 +16,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// MongoDB connection promise (cached for serverless)
-let dbPromise = null;
-
-async function ensureDbConnected() {
-    if (!dbPromise) {
-        dbPromise = connectDB();
-    }
-    return dbPromise;
-}
-
 // View Engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -35,13 +25,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session
+// Session - disable secure cookie for now to avoid issues
 app.use(session({
     secret: process.env.SESSION_SECRET || 'madame-modas-secret-key-2024',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: false,
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));
@@ -49,11 +39,14 @@ app.use(session({
 // Ensure DB is connected before handling requests
 app.use(async (req, res, next) => {
     try {
-        await ensureDbConnected();
+        await connectDB();
         next();
     } catch (error) {
-        console.error('Database connection error:', error);
-        next(error);
+        console.error('Database connection error:', error.message);
+        return res.status(500).render('error', {
+            title: 'Erro de Conexao',
+            message: 'Erro ao conectar ao banco de dados. Verifique as configuracoes.'
+        });
     }
 });
 
@@ -76,7 +69,7 @@ app.use((req, res) => {
 
 // Error Handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error('Error:', err.message);
     res.status(500).render('error', {
         title: 'Erro',
         message: 'Algo deu errado!'
