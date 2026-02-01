@@ -16,8 +16,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB
-connectDB();
+// MongoDB connection promise (cached for serverless)
+let dbPromise = null;
+
+async function ensureDbConnected() {
+    if (!dbPromise) {
+        dbPromise = connectDB();
+    }
+    return dbPromise;
+}
 
 // View Engine
 app.set('view engine', 'ejs');
@@ -39,6 +46,17 @@ app.use(session({
     }
 }));
 
+// Ensure DB is connected before handling requests
+app.use(async (req, res, next) => {
+    try {
+        await ensureDbConnected();
+        next();
+    } catch (error) {
+        console.error('Database connection error:', error);
+        next(error);
+    }
+});
+
 // Global variables for views
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isAuthenticated || false;
@@ -53,7 +71,7 @@ app.use('/api', apiRoutes);
 
 // 404 Handler
 app.use((req, res) => {
-    res.status(404).render('404', { title: 'Página não encontrada' });
+    res.status(404).render('404', { title: 'Pagina nao encontrada' });
 });
 
 // Error Handler
@@ -68,9 +86,9 @@ app.use((err, req, res, next) => {
 // Start server only if not in Vercel environment
 if (process.env.VERCEL !== '1') {
     app.listen(PORT, () => {
-        console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
-        console.log(`📦 Catálogo: http://localhost:${PORT}`);
-        console.log(`🔐 Admin: http://localhost:${PORT}/admin`);
+        console.log(`Servidor rodando em http://localhost:${PORT}`);
+        console.log(`Catalogo: http://localhost:${PORT}`);
+        console.log(`Admin: http://localhost:${PORT}/admin`);
     });
 }
 
