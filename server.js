@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { connectDB } from './data/database.js';
@@ -16,6 +17,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy for Vercel (needed for secure cookies)
+app.set('trust proxy', 1);
+
 // View Engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -25,13 +29,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session - disable secure cookie for now to avoid issues
+// Session with MongoDB store for serverless persistence
 app.use(session({
     secret: process.env.SESSION_SECRET || 'madame-modas-secret-key-2024',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        ttl: 24 * 60 * 60, // 24 hours
+        autoRemove: 'native'
+    }),
     cookie: {
-        secure: false,
+        secure: process.env.VERCEL === '1',
+        httpOnly: true,
+        sameSite: 'lax',
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
 }));
