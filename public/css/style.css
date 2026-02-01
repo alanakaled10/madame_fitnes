@@ -1,0 +1,297 @@
+/* Madame Modas - Custom Styles */
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F5F3F0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #D4CFC9;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1a1a1a;
+}
+
+/* Product Card Animations */
+.product-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-image {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Filter Button Styles */
+.filter-btn {
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background-color: #1a1a1a;
+    color: #F5F3F0;
+}
+
+.filter-btn:hover:not(.active) {
+    background-color: #D4CFC9;
+}
+
+/* Hero Text Animation */
+.hero-text {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Product Card Animation */
+.product-card {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* WhatsApp Button */
+.whatsapp-btn {
+    transition: all 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    background-color: #1a1a1a;
+    transform: scale(1.02);
+}
+
+/* Line Clamp */
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Focus Styles */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+}
+
+/* Button Styles */
+button,
+.btn {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:active,
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Image Loading Placeholder */
+img {
+    background-color: #E8E4DF;
+}
+
+/* Responsive Fixes */
+@media (max-width: 640px) {
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+
+    .product-card:hover {
+        transform: none;
+    }
+}
+
+/* Admin Table Responsive */
+@media (max-width: 768px) {
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 9999px;
+}
+
+/* Loading Spinner */
+.spinner {
+    border: 3px solid #E8E4DF;
+    border-top: 3px solid #1a1a1a;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1a1a1a;
+    color: #F5F3F0;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Pulse Animation */
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Admin Mobile Menu */
+#adminMobileMenu {
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Admin Mobile Cards */
+@media (max-width: 767px) {
+    .admin-product-card {
+        touch-action: manipulation;
+    }
+
+    /* Better touch targets on mobile */
+    .admin-product-card button,
+    .admin-product-card a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Responsive text utilities */
+@media (max-width: 640px) {
+    .text-responsive-sm {
+        font-size: 0.875rem;
+    }
+
+    .text-responsive-base {
+        font-size: 0.875rem;
+    }
+}
+
+/* Admin Header Mobile Fixes */
+@media (max-width: 767px) {
+    .admin-header-logo {
+        max-width: 150px;
+    }
+}
+
+/* Form Elements Touch Friendly */
+@media (max-width: 640px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    select,
+    textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+/* Safe area padding for mobile devices with notch */
+@supports (padding: env(safe-area-inset-bottom)) {
+    .admin-main {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}

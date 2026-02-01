@@ -1,0 +1,105 @@
+<%- include('../partials/header') %>
+
+<div class="min-h-screen bg-nude-light">
+    <!-- Admin Header -->
+    <% activePage = 'dashboard' %>
+    <%- include('../partials/admin-header') %>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <!-- Welcome -->
+        <div class="mb-6 sm:mb-8">
+            <h1 class="font-serif text-2xl sm:text-3xl text-dark mb-2">Bem-vinda de volta!</h1>
+            <p class="text-dark-soft/60 text-sm sm:text-base">Gerencie seu catalogo de produtos</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+            <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-dark-soft/60 text-xs sm:text-sm">Total de Produtos</p>
+                        <p class="font-serif text-2xl sm:text-3xl text-dark mt-1"><%= stats.totalProducts %></p>
+                    </div>
+                    <div class="bg-nude p-2 sm:p-3 rounded-full hidden sm:block">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-dark-soft/60 text-xs sm:text-sm">Roupas Fitness</p>
+                        <p class="font-serif text-2xl sm:text-3xl text-dark mt-1"><%= stats.fitnessProducts %></p>
+                    </div>
+                    <div class="bg-rose-light p-2 sm:p-3 rounded-full hidden sm:block">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-dark-soft/60 text-xs sm:text-sm">Suplementos</p>
+                        <p class="font-serif text-2xl sm:text-3xl text-dark mt-1"><%= stats.suplementosProducts %></p>
+                    </div>
+                    <div class="bg-green-100 p-2 sm:p-3 rounded-full hidden sm:block">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-dark-soft/60 text-xs sm:text-sm">Produtos Ativos</p>
+                        <p class="font-serif text-2xl sm:text-3xl text-dark mt-1"><%= stats.activeProducts %></p>
+                    </div>
+                    <div class="bg-blue-100 p-2 sm:p-3 rounded-full hidden sm:block">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <a href="/admin/produtos/novo"
+               class="bg-white rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow flex items-center space-x-3 sm:space-x-4">
+                <div class="bg-dark p-3 sm:p-4 rounded-full flex-shrink-0">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-nude-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </div>
+                <div class="min-w-0">
+                    <h3 class="font-medium text-dark text-base sm:text-lg">Adicionar Produto</h3>
+                    <p class="text-dark-soft/60 text-xs sm:text-sm truncate">Cadastre um novo produto no catalogo</p>
+                </div>
+            </a>
+
+            <a href="/admin/produtos"
+               class="bg-white rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow flex items-center space-x-3 sm:space-x-4">
+                <div class="bg-nude p-3 sm:p-4 rounded-full flex-shrink-0">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                    </svg>
+                </div>
+                <div class="min-w-0">
+                    <h3 class="font-medium text-dark text-base sm:text-lg">Gerenciar Produtos</h3>
+                    <p class="text-dark-soft/60 text-xs sm:text-sm truncate">Edite ou remova produtos existentes</p>
+                </div>
+            </a>
+        </div>
+    </main>
+</div>
+
+<%- include('../partials/footer') %>

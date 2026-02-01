@@ -1,0 +1,203 @@
+<%- include('../partials/header') %>
+
+<div class="min-h-screen bg-nude-light">
+    <!-- Admin Header -->
+    <% activePage = 'produtos' %>
+    <%- include('../partials/admin-header') %>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <!-- Back Button -->
+        <a href="/admin/produtos" class="inline-flex items-center text-dark-soft/60 hover:text-dark mb-4 sm:mb-6 transition-colors text-sm sm:text-base">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            Voltar para produtos
+        </a>
+
+        <!-- Header -->
+        <div class="mb-6 sm:mb-8">
+            <h1 class="font-serif text-2xl sm:text-3xl text-dark mb-1 sm:mb-2">
+                <%= isEdit ? 'Editar Produto' : 'Novo Produto' %>
+            </h1>
+            <p class="text-dark-soft/60 text-sm sm:text-base">
+                <%= isEdit ? 'Atualize as informacoes do produto' : 'Preencha as informacoes do novo produto' %>
+            </p>
+        </div>
+
+        <!-- Error Message -->
+        <% if (error) { %>
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <!-- Form -->
+        <form action="/admin/produtos/<%= isEdit ? 'editar/' + product.id : 'novo' %>"
+              method="POST"
+              enctype="multipart/form-data"
+              class="bg-white rounded-xl shadow-sm p-4 sm:p-6 lg:p-8">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <!-- Name -->
+                <div class="sm:col-span-2">
+                    <label for="name" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Nome do Produto *</label>
+                    <input type="text" id="name" name="name" required
+                           value="<%= product?.name || '' %>"
+                           class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base"
+                           placeholder="Ex: Conjunto Top Short Folgado">
+                </div>
+
+                <!-- Category -->
+                <div>
+                    <label for="category" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Categoria *</label>
+                    <select id="category" name="category" required
+                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base bg-white">
+                        <option value="">Selecione...</option>
+                        <% categories.forEach(cat => { %>
+                            <option value="<%= cat.id %>" <%= product?.category === cat.id ? 'selected' : '' %>>
+                                <%= cat.name %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label for="price" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Preco (R$) *</label>
+                    <input type="number" id="price" name="price" required step="0.01" min="0"
+                           value="<%= product?.price || '' %>"
+                           class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base"
+                           placeholder="99.90">
+                </div>
+
+                <!-- Short Description -->
+                <div class="sm:col-span-2">
+                    <label for="description" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Descricao Curta *</label>
+                    <input type="text" id="description" name="description" required maxlength="150"
+                           value="<%= product?.description || '' %>"
+                           class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base"
+                           placeholder="Descricao breve para o card do produto">
+                    <p class="text-dark-soft/60 text-xs sm:text-sm mt-1">Maximo 150 caracteres</p>
+                </div>
+
+                <!-- Full Description -->
+                <div class="sm:col-span-2">
+                    <label for="fullDescription" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Descricao Completa</label>
+                    <textarea id="fullDescription" name="fullDescription" rows="3"
+                              class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base resize-none"
+                              placeholder="Descricao detalhada para a pagina do produto"><%= product?.fullDescription || '' %></textarea>
+                </div>
+
+                <!-- Sizes -->
+                <div class="sm:col-span-2">
+                    <label for="sizes" class="block text-sm font-medium text-dark mb-1.5 sm:mb-2">Tamanhos (para roupas)</label>
+                    <input type="text" id="sizes" name="sizes"
+                           value="<%= product?.sizes?.join(', ') || '' %>"
+                           class="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-nude-dark rounded-lg focus:outline-none focus:ring-2 focus:ring-dark/20 text-sm sm:text-base"
+                           placeholder="P, M, G, GG">
+                    <p class="text-dark-soft/60 text-xs sm:text-sm mt-1">Separe os tamanhos por virgula</p>
+                </div>
+
+                <!-- Images and Videos -->
+                <div class="sm:col-span-2">
+                    <label class="block text-sm font-medium text-dark mb-2 sm:mb-3">Imagens e Videos do Produto</label>
+
+                    <% if (isEdit && product?.images?.length > 0) { %>
+                        <div class="mb-4">
+                            <p class="text-dark-soft/60 text-xs sm:text-sm mb-2">Imagens atuais:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <% product.images.forEach(img => { %>
+                                    <img src="<%= img %>" alt="Imagem atual"
+                                         class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border border-nude-dark">
+                                <% }); %>
+                            </div>
+                            <div class="mt-2">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="keepImages" value="true" checked
+                                           class="rounded border-nude-dark text-dark focus:ring-dark/20 w-4 h-4">
+                                    <span class="ml-2 text-xs sm:text-sm text-dark-soft/60">Manter imagens atuais</span>
+                                </label>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <% if (isEdit && product?.videos?.length > 0) { %>
+                        <div class="mb-4">
+                            <p class="text-dark-soft/60 text-xs sm:text-sm mb-2">Videos atuais:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <% product.videos.forEach(video => { %>
+                                    <div class="relative w-24 h-16 sm:w-32 sm:h-20 rounded-lg border border-nude-dark overflow-hidden bg-dark/10">
+                                        <video src="<%= video %>" class="w-full h-full object-cover" muted></video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-dark/30">
+                                            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+                            <div class="mt-2">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="keepVideos" value="true" checked
+                                           class="rounded border-nude-dark text-dark focus:ring-dark/20 w-4 h-4">
+                                    <span class="ml-2 text-xs sm:text-sm text-dark-soft/60">Manter videos atuais</span>
+                                </label>
+                            </div>
+                        </div>
+                    <% } %>
+
+                    <div class="border-2 border-dashed border-nude-dark rounded-lg p-4 sm:p-6 lg:p-8 text-center hover:border-dark/40 transition-colors">
+                        <input type="file" id="media" name="media" multiple accept="image/*,video/mp4,video/webm,video/quicktime"
+                               class="hidden" onchange="updateFileLabel(this)">
+                        <label for="media" class="cursor-pointer">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-dark-soft/40 mb-3 sm:mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p class="text-dark-soft/60 mb-1 sm:mb-2 text-sm sm:text-base">Clique para selecionar</p>
+                            <p class="text-dark-soft/40 text-xs sm:text-sm">JPG, PNG, WebP (max 5MB) | MP4, WebM, MOV (max 50MB)</p>
+                        </label>
+                        <p id="fileLabel" class="text-dark mt-3 sm:mt-4 font-medium text-sm sm:text-base hidden"></p>
+                    </div>
+                </div>
+
+                <% if (isEdit) { %>
+                    <!-- Active Status -->
+                    <div class="sm:col-span-2">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" name="active" value="true"
+                                   <%= product?.active !== false ? 'checked' : '' %>
+                                   class="rounded border-nude-dark text-dark focus:ring-dark/20 w-5 h-5">
+                            <span class="ml-3 text-dark text-sm sm:text-base">Produto ativo (visivel no catalogo)</span>
+                        </label>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 sm:gap-4 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-nude">
+                <a href="/admin/produtos"
+                   class="px-6 py-2.5 sm:py-3 text-dark-soft/60 hover:text-dark transition-colors text-center text-sm sm:text-base order-2 sm:order-1">
+                    Cancelar
+                </a>
+                <button type="submit"
+                        class="bg-dark text-nude-light px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium hover:bg-dark-soft transition-colors text-sm sm:text-base order-1 sm:order-2">
+                    <%= isEdit ? 'Salvar Alteracoes' : 'Criar Produto' %>
+                </button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<script>
+    function updateFileLabel(input) {
+        const label = document.getElementById('fileLabel');
+        if (input.files.length > 0) {
+            label.textContent = `${input.files.length} arquivo(s) selecionado(s)`;
+            label.classList.remove('hidden');
+        } else {
+            label.classList.add('hidden');
+        }
+    }
+</script>
+
+<%- include('../partials/footer') %>

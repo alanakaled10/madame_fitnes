@@ -1,0 +1,302 @@
+{
+  "products": [
+    {
+      "id": "prod-001",
+      "name": "Blusa Gym Branca",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 89.9,
+      "description": "Blusa confortável para treinos intensos",
+      "fullDescription": "Blusa fitness em tecido dry-fit de alta qualidade. Perfeita para treinos intensos, oferece conforto e liberdade de movimentos. Tecido leve e respirável que absorve o suor rapidamente.",
+      "image": "/img/produtos/blusa-gym-branca.jpeg",
+      "images": [
+        "/img/produtos/blusa-gym-branca.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "prod-002",
+      "name": "Conjunto Saia e Blusa",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 159.9,
+      "description": "Conjunto elegante e versátil",
+      "fullDescription": "Conjunto fitness composto por saia com shorts embutido e blusa cropped. Look elegante que pode ser usado tanto na academia quanto no dia a dia. Tecido de alta compressão que modela o corpo.",
+      "image": "/img/produtos/conjunto-saia-e-blusa.jpeg",
+      "images": [
+        "/img/produtos/conjunto-saia-e-blusa.jpeg",
+        "/img/produtos/conjunto-saia-e-blusa-capa.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-02T00:00:00.000Z"
+    },
+    {
+      "id": "prod-003",
+      "name": "Conjunto Top Short Folgado Branco",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 149.9,
+      "description": "Conforto e estilo para seu treino",
+      "fullDescription": "Conjunto em branco composto por top com bojo removível e short folgado com cintura alta. Ideal para treinos de baixo impacto, yoga e pilates. Tecido macio e confortável.",
+      "image": "/img/produtos/conjunto-top-short-folgado-branco.jpeg",
+      "images": [
+        "/img/produtos/conjunto-top-short-folgado-branco.jpeg",
+        "/img/produtos/conjunto-top-short-folgado-branco-detalhes.jpeg",
+        "/img/produtos/conjunto-top-short-folgado-branco-preto.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-03T00:00:00.000Z"
+    },
+    {
+      "id": "prod-004",
+      "name": "Conjunto Top Short Folgado Preto",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 149.9,
+      "description": "Look clássico para academia",
+      "fullDescription": "Conjunto em preto composto por top com bojo removível e short folgado. Visual clássico e elegante para qualquer treino. Tecido de alta durabilidade que não desbota.",
+      "image": "/img/produtos/conjunto-top-short-folgado-preto.jpeg",
+      "images": [
+        "/img/produtos/conjunto-top-short-folgado-preto.jpeg",
+        "/img/produtos/conjunto-top-short-folgado-preto-detalhes.jpeg",
+        "/img/produtos/conjunto-top-short-folgado-preto-costas.jpeg",
+        "/img/produtos/conjunto-top-short-folgado-preto-detalhes-short.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-04T00:00:00.000Z"
+    },
+    {
+      "id": "prod-005",
+      "name": "Short Preto com Bolso",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 79.9,
+      "description": "Short funcional com bolsos laterais",
+      "fullDescription": "Short fitness preto com bolsos laterais práticos para celular e chaves. Cintura alta com elástico confortável. Tecido com tecnologia anti-transparência.",
+      "image": "/img/produtos/short-preto-com-bolso.jpeg",
+      "images": [
+        "/img/produtos/short-preto-com-bolso.jpeg",
+        "/img/produtos/short-preto-com-bolso-detalhe.jpeg",
+        "/img/produtos/short-preto-com-bolso-costas.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "prod-006",
+      "name": "Macaquinho Costa Nua Marrom",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 139.9,
+      "description": "Macaquinho sofisticado com costas abertas",
+      "fullDescription": "Macaquinho fitness em tom marrom elegante com design de costas abertas. Valoriza o corpo e permite ventilação durante o treino. Tecido com compressão moderada.",
+      "image": "/img/produtos/macaquinho-costa-nua-marrom.jpeg",
+      "images": [
+        "/img/produtos/macaquinho-costa-nua-marrom.jpeg",
+        "/img/produtos/macaquinho-costa-nua-marrom-frente.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-06T00:00:00.000Z"
+    },
+    {
+      "id": "prod-007",
+      "name": "Macaquinho com Zíper",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 149.9,
+      "description": "Praticidade com zíper frontal",
+      "fullDescription": "Macaquinho fitness com zíper frontal para facilitar vestir e tirar. Design moderno e prático. Tecido de alta compressão que modela a silhueta.",
+      "image": "/img/produtos/macaquinho-com-ziper.jpeg",
+      "images": [
+        "/img/produtos/macaquinho-com-ziper.jpeg",
+        "/img/produtos/macaquinho-com ziper-detalhes.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-07T00:00:00.000Z"
+    },
+    {
+      "id": "prod-008",
+      "name": "Macaquinho Branco Costa Nua",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 139.9,
+      "description": "Elegância em branco com costas abertas",
+      "fullDescription": "Macaquinho fitness branco com design de costas abertas. Perfeito para quem quer um look clean e sofisticado na academia. Tecido com proteção UV.",
+      "image": "/img/produtos/macaquinho-branco-costa-nua.jpeg",
+      "images": [
+        "/img/produtos/macaquinho-branco-costa-nua.jpeg",
+        "/img/produtos/macaquinho-branco-costa-nua-atras.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-08T00:00:00.000Z"
+    },
+    {
+      "id": "prod-009",
+      "name": "Macacão Comprido Zíper Preto",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 189.9,
+      "description": "Macacão longo com design moderno",
+      "fullDescription": "Macacão fitness comprido em preto com zíper frontal. Peça versátil que pode ser usada para treinar ou em ocasiões casuais. Tecido confortável e elástico.",
+      "image": "/img/produtos/macacao-comprido-ziper-preto.jpeg",
+      "images": [
+        "/img/produtos/macacao-comprido-ziper-preto.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-09T00:00:00.000Z"
+    },
+    {
+      "id": "prod-010",
+      "name": "Macacão Comprido com Zíper",
+      "category": "fitness",
+      "categoryLabel": "Roupas Fitness",
+      "price": 189.9,
+      "description": "Peça versátil para diversas ocasiões",
+      "fullDescription": "Macacão fitness comprido com zíper. Design elegante que transita entre o treino e o casual. Tecido de alta qualidade com ótimo caimento.",
+      "image": "/img/produtos/macacao-comprido-com-ziper.jpeg",
+      "images": [
+        "/img/produtos/macacao-comprido-com-ziper.jpeg"
+      ],
+      "sizes": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "active": true,
+      "createdAt": "2024-01-10T00:00:00.000Z"
+    },
+    {
+      "id": "prod-011",
+      "name": "Secaps Black Chá",
+      "category": "suplementos",
+      "categoryLabel": "Suplementos",
+      "price": 89.9,
+      "description": "Termogênico com chá verde e cafeína",
+      "fullDescription": "Secaps Black Chá é um termogênico potente com blend exclusivo de chá verde, cafeína e outros compostos naturais. Auxilia na queima de gordura e aumenta a disposição para os treinos. Contém 60 cápsulas.",
+      "image": "/img/produtos/secaps-black-cha.jpeg",
+      "images": [
+        "/img/produtos/secaps-black-cha.jpeg",
+        "/img/produtos/secaps-black-cha-composicao.jpeg",
+        "/img/produtos/secaps-back-cha-beneficios.jpeg",
+        "/img/produtos/secaps-black-cha-beneficios2.jpeg",
+        "/img/produtos/secaps-black-cha-beneficios3.jpeg"
+      ],
+      "sizes": [],
+      "active": true,
+      "createdAt": "2024-01-11T00:00:00.000Z"
+    },
+    {
+      "id": "prod-012",
+      "name": "Secaps",
+      "category": "suplementos",
+      "categoryLabel": "Suplementos",
+      "price": 79.9,
+      "description": "Suplemento para emagrecimento saudável",
+      "fullDescription": "Secaps é um suplemento natural que auxilia no processo de emagrecimento de forma saudável. Composição com ingredientes que ajudam a controlar o apetite e acelerar o metabolismo. Contém 60 cápsulas.",
+      "image": "/img/produtos/secaps.jpeg",
+      "images": [
+        "/img/produtos/secaps.jpeg",
+        "/img/produtos/secaps-black-detalhes.jpeg",
+        "/img/produtos/secaps-black-composicao.jpeg",
+        "/img/produtos/secaps-black-beneficios1.jpeg",
+        "/img/produtos/secaps-black-beneficios2.jpeg",
+        "/img/produtos/secaps-black-beneficios3.jpeg"
+      ],
+      "sizes": [],
+      "active": true,
+      "createdAt": "2024-01-12T00:00:00.000Z"
+    },
+    {
+      "id": "prod-013",
+      "name": "Creatina Gummy",
+      "category": "suplementos",
+      "categoryLabel": "Suplementos",
+      "price": 99.9,
+      "description": "Creatina em gomas saborosas",
+      "fullDescription": "Creatina em formato de gomas com sabor delicioso. Forma prática e gostosa de consumir creatina, ideal para quem não gosta de suplementos em pó. Auxilia no ganho de força e massa muscular. Contém 60 gomas.",
+      "image": "/img/produtos/creatina-gummy.jpeg",
+      "images": [
+        "/img/produtos/creatina-gummy.jpeg",
+        "/img/produtos/creatina-gummy-detalhes.jpeg",
+        "/img/produtos/creatina-gummy-descricao.jpeg",
+        "/img/produtos/creatina-gummy-beneficios.jpeg"
+      ],
+      "sizes": [],
+      "active": true,
+      "createdAt": "2024-01-13T00:00:00.000Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "user-001",
+      "username": "admin",
+      "password": "$2a$10$9dT.uW7gp.71og8FPrhpkurh5D0SDQvp0Z5BXmDn8Odu1rPzdusDO",
+      "name": "Administrador",
+      "role": "admin",
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "settings": {
+    "storeName": "Madame Modas",
+    "storeSlogan": "Moda Feminina & Fitness",
+    "whatsappNumber": "+557799044609",
+    "instagram": "@madame_fittnes",
+    "email": "contato@madamemodas.com"
+  }
+}
