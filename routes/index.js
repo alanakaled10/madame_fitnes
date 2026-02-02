@@ -11,12 +11,16 @@ router.get('/', async (req, res) => {
         const categories = await getCategories();
         const settings = await getSettings();
 
+        // Busca suplementos para a seção de destaque
+        const suplementos = await getProducts('suplementos');
+
         res.render('index', {
             title: 'Madame Modas - Catálogo',
             products,
             categories,
             settings,
-            activeCategory: category
+            activeCategory: category,
+            suplementos
         });
     } catch (error) {
         console.error('Error loading catalog:', error);
