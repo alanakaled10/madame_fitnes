@@ -362,10 +362,14 @@ img {
 @media (max-width: 767px) {
     .carousel-container {
         overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        overflow-y: hidden;
+        scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding: 1rem 0;
+        margin: -1rem 0;
     }
 
     .carousel-container::-webkit-scrollbar {
@@ -374,12 +378,20 @@ img {
 
     .carousel-item {
         scroll-snap-align: center;
-        width: 85vw;
-        max-width: 320px;
+        scroll-snap-stop: normal;
+        width: 80vw;
+        max-width: 300px;
     }
 
     .carousel-track {
-        padding: 0 2.5vw;
+        padding: 0 10vw;
+        scroll-padding: 0 10vw;
+        gap: 1rem;
+    }
+
+    /* Desativa transform no mobile para usar scroll nativo */
+    .carousel-track {
+        transform: none !important;
     }
 }
 
