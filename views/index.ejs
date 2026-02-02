@@ -95,7 +95,7 @@
             </button>
 
             <!-- Carousel Track -->
-            <div class="carousel-container overflow-hidden">
+            <div class="carousel-container md:overflow-hidden">
                 <div id="carouselTrack" class="carousel-track flex transition-transform duration-500 ease-out gap-6">
                     <% suplementos.forEach((produto, index) => { %>
                         <div class="carousel-item flex-shrink-0 w-72 sm:w-80">
@@ -301,7 +301,6 @@
     const dots = document.querySelectorAll('.carousel-dot');
     const totalSlides = dots.length;
 
-    // Detecta se é mobile
     function isMobile() {
         return window.innerWidth < 768;
     }
@@ -309,13 +308,12 @@
     function getSlideWidth() {
         const item = document.querySelector('.carousel-item');
         if (!item) return 320;
-        const gap = isMobile() ? 16 : 24; // gap menor no mobile
-        return item.offsetWidth + gap;
+        return item.offsetWidth + 24;
     }
 
-    function updateDots() {
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
+    function updateDots(index) {
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
         });
     }
 
@@ -323,108 +321,72 @@
         if (!track || totalSlides === 0) return;
 
         currentSlide += direction;
-
-        // Loop around
-        if (currentSlide < 0) {
-            currentSlide = totalSlides - 1;
-        } else if (currentSlide >= totalSlides) {
-            currentSlide = 0;
-        }
+        if (currentSlide < 0) currentSlide = totalSlides - 1;
+        if (currentSlide >= totalSlides) currentSlide = 0;
 
         const slideWidth = getSlideWidth();
-
-        // No mobile, usa scroll nativo (mais suave)
-        if (isMobile() && container) {
-            const scrollPos = currentSlide * slideWidth;
-            container.scrollTo({
-                left: scrollPos,
-                behavior: 'smooth'
-            });
-        } else {
-            // No desktop, usa transform
-            track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-        }
-
-        updateDots();
+        track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+        updateDots(currentSlide);
     }
 
     function goToSlide(index) {
         if (!track || index < 0 || index >= totalSlides) return;
-
         currentSlide = index;
-        const slideWidth = getSlideWidth();
 
         if (isMobile() && container) {
-            container.scrollTo({
-                left: currentSlide * slideWidth,
-                behavior: 'smooth'
-            });
+            const item = document.querySelectorAll('.carousel-item')[index];
+            if (item) {
+                item.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            }
         } else {
+            const slideWidth = getSlideWidth();
             track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
         }
-
-        updateDots();
+        updateDots(currentSlide);
     }
 
-    // Auto-play carousel
+    // Auto-play (apenas desktop)
     let autoPlayInterval;
-
     function startAutoPlay() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-        autoPlayInterval = setInterval(() => {
-            moveCarousel(1);
-        }, 5000);
+        if (isMobile()) return;
+        autoPlayInterval = setInterval(() => moveCarousel(1), 5000);
     }
-
     function stopAutoPlay() {
         clearInterval(autoPlayInterval);
     }
 
-    // Initialize carousel
+    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
         if (track && totalSlides > 0) {
-            // Só auto-play no desktop
-            if (!isMobile()) {
-                startAutoPlay();
+            startAutoPlay();
+
+            const section = track.closest('section');
+            if (section) {
+                section.addEventListener('mouseenter', stopAutoPlay);
+                section.addEventListener('mouseleave', startAutoPlay);
             }
 
-            // Pause on hover (desktop)
-            const carouselSection = track.closest('section');
-            if (carouselSection) {
-                carouselSection.addEventListener('mouseenter', stopAutoPlay);
-                carouselSection.addEventListener('mouseleave', () => {
-                    if (!isMobile()) startAutoPlay();
-                });
-            }
-
-            // Atualiza dots baseado no scroll (mobile)
+            // Atualiza dots no scroll do mobile
             if (container) {
-                let scrollTimeout;
                 container.addEventListener('scroll', () => {
-                    clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        const slideWidth = getSlideWidth();
-                        const scrollPos = container.scrollLeft;
-                        const newSlide = Math.round(scrollPos / slideWidth);
-                        if (newSlide !== currentSlide && newSlide >= 0 && newSlide < totalSlides) {
-                            currentSlide = newSlide;
-                            updateDots();
+                    if (!isMobile()) return;
+                    const items = document.querySelectorAll('.carousel-item');
+                    const containerRect = container.getBoundingClientRect();
+
+                    items.forEach((item, index) => {
+                        const rect = item.getBoundingClientRect();
+                        const itemCenter = rect.left + rect.width / 2;
+                        const containerCenter = containerRect.left + containerRect.width / 2;
+
+                        if (Math.abs(itemCenter - containerCenter) < rect.width / 2) {
+                            if (currentSlide !== index) {
+                                currentSlide = index;
+                                updateDots(index);
+                            }
                         }
-                    }, 50);
+                    });
                 }, { passive: true });
             }
-
-            // Reinicia comportamento ao redimensionar
-            window.addEventListener('resize', () => {
-                if (isMobile()) {
-                    stopAutoPlay();
-                    track.style.transform = 'none';
-                } else {
-                    const slideWidth = getSlideWidth();
-                    track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-                    startAutoPlay();
-                }
-            });
         }
     });
 </script>
