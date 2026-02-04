@@ -71,16 +71,15 @@
     </div>
 </section>
 
-<!-- Destaque Suplementos - Carrossel (categoria "todos" no desktop, sempre no mobile) -->
-<% if (suplementos && suplementos.length > 0) { %>
-<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-nude-dark/10 via-nude to-nude-dark/10 <%= activeCategory !== 'all' ? 'md:hidden' : '' %>">
+<!-- Destaque Suplementos - Carrossel (apenas na categoria "todos") -->
+<% if (suplementos && suplementos.length > 0 && activeCategory === 'all') { %>
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-nude-dark/10 via-nude to-nude-dark/10">
     <div class="max-w-7xl mx-auto">
         <!-- Section Title -->
         <div class="text-center mb-10">
             <span class="inline-block bg-dark text-nude-light text-xs font-semibold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wider">
                 Destaque
             </span>
-            <h2 class="font-serif text-3xl sm:text-4xl font-light text-dark mb-4">Suplementos</h2>
             <p class="text-dark-soft/60 font-light tracking-wide">Potencialize seus resultados</p>
         </div>
 
