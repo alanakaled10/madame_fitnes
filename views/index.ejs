@@ -71,9 +71,9 @@
     </div>
 </section>
 
-<!-- Destaque Suplementos - Carrossel (apenas na categoria "todos") -->
-<% if (suplementos && suplementos.length > 0 && activeCategory === 'all') { %>
-<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-nude-dark/10 via-nude to-nude-dark/10">
+<!-- Destaque Suplementos - Carrossel (categoria "todos" no desktop, sempre no mobile) -->
+<% if (suplementos && suplementos.length > 0) { %>
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-nude-dark/10 via-nude to-nude-dark/10 <%= activeCategory !== 'all' ? 'md:hidden' : '' %>">
     <div class="max-w-7xl mx-auto">
         <!-- Section Title -->
         <div class="text-center mb-10">
